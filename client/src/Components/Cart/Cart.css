@@ -1,0 +1,52 @@
+/* Cart.css */
+
+.item {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  .item-image-container {
+    flex-shrink: 0;
+    margin-right: 20px; /* Khoảng cách giữa ảnh và nội dung */
+  }
+  
+  .img {
+    max-width: 100%; /* Ảnh không vượt quá kích thước của container */
+  }
+  
+  .item-info {
+    flex-grow: 1;
+  }
+  
+  .price,
+  label,
+  input,
+  p {
+    margin: 0; /* Đảm bảo không có margin mặc định */
+  }
+  
+  .label {
+    display: block;
+    margin-top: 10px; /* Khoảng cách giữa số lượng và các thông tin khác */
+  }
+  
+  .link-style {
+    text-decoration: none;
+    color: inherit; /* Kế thừa màu sắc từ cha */
+  }
+  
+  .pay {
+    list-style: none;
+  }
+  
+.pay a {
+    text-decoration: none;
+    color: #333;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .pay a:hover {
+    background-color: #e9ecef;
+  }

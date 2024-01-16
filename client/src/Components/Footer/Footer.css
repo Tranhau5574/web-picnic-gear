@@ -1,0 +1,62 @@
+/* Reset some default styles */
+body, ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  /* Styles for custom footer */
+  .custom-footer {
+    background-color: #f8f9fa;
+    padding: 0 10px;
+    margin-top: 20px;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  
+  .row {
+    margin-bottom: 5px;
+  }
+  
+  .col-md-4:nth-child(1) {
+    margin-left: 10px;
+    width: 15%;
+  }
+
+  
+  .col-md-4:nth-child(2) {
+    margin-left: 2%;
+    width: 25%;
+  }
+  
+  .col-md-4:nth-child(3) {
+    margin-left: 4%;
+    width: 25%;
+  }
+  .col-md-4:nth-child(4) {
+    margin-left: 4%;
+    width:20%
+  }
+  
+  .footer-heading {
+    margin-bottom: 10px;
+  }
+  
+  .footer-text {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  a {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
