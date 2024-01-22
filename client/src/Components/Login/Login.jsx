@@ -1,20 +1,32 @@
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
-import React, { useState } from 'react';
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import React, { useState } from "react";
+import Modal from "../Modal/Modal";
+import {Key, IdentificationCard} from "phosphor-react";
+import "./Login.css"
 
 function Login() {
   const history = useNavigate();
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const openErrorModal = (message) => {
+    setErrorMessage(message);
+    setErrorModalOpen(true);
+  };
+
+  const closeErrorModal = () => {
+    setErrorModalOpen(false);
+  };
 
   async function submit(e) {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/user/login', {
+      const response = await axios.post("http://localhost:5000/user/login", {
         username,
         password,
       });
@@ -22,53 +34,66 @@ function Login() {
       const { data } = response;
 
       if (data.token) {
-   
-        localStorage.setItem('token', data.token);
-
+        localStorage.setItem("token", data.token);
         // Điều hướng đến trang chính
-        history('/');
+        history("/");
       } else {
-        alert('Wrong credentials');
+        openErrorModal("Wrong credentials");
       }
     } catch (error) {
-      console.error('Login error:', error);
-      alert('An error occurred while logging in');
+      console.error("Login error:", error);
+      openErrorModal("An error occurred while logging in");
     }
   }
 
   return (
-    <Form
-      style={{ width: '300px', margin: 'auto', marginTop: '50px' }}
+    <div className="page" style={{  }}>
+    <form
+      style={{ width: "300px", margin: "auto", marginTop: "50px" }}
       onSubmit={submit}
     >
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Username</Form.Label>
-        <Form.Control
+      <h1>Login</h1>
+      <div className="input_box">
+      <label >
+        <input
           type="text"
-          placeholder="Enter username"
+          placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+        
         />
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
+        <IdentificationCard className ="icon" size={40} weight="fill" />
+      </label>
+      </div>
+      <div className="input_box">
+      <label >
+        <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-      </Form.Group>
+        <Key className ="icon" size={40} weight="fill" />
+      </label>
+      </div>
 
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-      <br />
-      <p>OR</p>
-      <br />
-      <Link to="/signup"> Signup</Link>
-    </Form>
+      <button className="btn"type="submit">Login</button>
+      
+      <div className="signup-link">
+        <p style={{ display: "inline", marginRight: "5px" }}>
+          Don't have an account?
+        </p>
+        <Link to="/signup" style={{ display: "inline" }}>
+          <b>Signup</b>
+        </Link>
+      </div>
+    </form>
+    <Modal
+        isOpen={errorModalOpen}
+        onClose={closeErrorModal}
+        errorMessage={errorMessage}
+      />
+    </div>
   );
 }
 

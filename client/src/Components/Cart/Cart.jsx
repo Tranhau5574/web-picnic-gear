@@ -19,7 +19,7 @@ function Cart() {
           },
         });
         const cartObject = response.data.reduce((acc, item) => {
-          acc[item._id] = item;
+          acc[item._id] = { ...item, quantity: 1 };
           return acc;
         }, {});
         setCartItems(cartObject);
@@ -28,12 +28,40 @@ function Cart() {
       }
     }
     fetchCart();
-  }, []);
+  },  []);
+  
+  // async function deleteFromCart(itemId) {
+  //   const token = localStorage.getItem("token");
+  //   try {
+  //     console.log('Deleting item with id:', itemId);
+  //     const response = await axios.delete(`http://localhost:5000/user/cart/${itemId}`, {
+  //       headers: {
+  //         "Auth-token": token,
+  //       },
+  //     });
+  //     console.log('Delete response:', response);
+  //     if (response.status === 200) {
+  //       // Remove the item from the local cart items state
+  //       setCartItems(prevItems => {
+  //         const newItems = { ...prevItems };
+  //         delete newItems[itemId];
+  //         return newItems;
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error('Error deleting item from cart:', error);
+  //   }
+  // }
 
   const handleQuantityChange = (itemId, newQuantity) => {
-    // Kiểm tra nếu số lượng mới là 0 hoặc rỗng, đặt giá trị mặc định là 1
-    const quantity = parseInt(newQuantity, 10) || 1;
-    
+ 
+    const quantity = parseInt(newQuantity, 10);
+
+ 
+    if (isNaN(quantity)) {
+      newQuantity = 1;
+    }
+
     setCartItems((prevCartItems) => ({
       ...prevCartItems,
       [itemId]: { ...prevCartItems[itemId], quantity },
@@ -68,6 +96,7 @@ function Cart() {
               onChange={(e) => handleQuantityChange(item._id, e.target.value)}
             />
             <p>Total: {(item.price * item.quantity).toLocaleString()}đ</p>
+            {/* <button onClick={() => deleteFromCart(item._id)}>Delete</button> */}
           </div>
         </div>
       ))}

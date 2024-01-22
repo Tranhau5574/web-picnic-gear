@@ -9,6 +9,7 @@ Router.post('/login', UserCtrl.login);
 Router.get('/logout', UserCtrl.logout);
 Router.post('/signup', UserCtrl.signup);
 Router.post('/cart',auth, UserCtrl.addToCart);
+Router.delete('/cart/:id', auth, UserCtrl.deleteFromCart);
 Router.get('/cart', auth, UserCtrl.getCart);
 
 module.exports = Router;

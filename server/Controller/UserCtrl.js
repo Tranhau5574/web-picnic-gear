@@ -73,6 +73,26 @@ const UserCtrl = {
           res.status(500).json({ msg: err.message });
         }
       },
+      deleteFromCart: async (req, res) => {
+        try{
+            const {productId} = req.body;
+
+            const userId = res.user.id;
+
+            const product = await Product.findById(productId);
+          if (!product) return res.status(404).json({ msg: 'Product not found' });
+      
+          const user = await User.findById(userId);
+          if (!user) return res.status(404).json({ msg: 'User not found' });
+          user.cart = user.cart.filter(cartItem => cartItem.toString() !== product._id.toString());
+          await user.save();
+            
+          res.json({ success: true });
+
+        }catch(err){
+            res.status(500).json({ msg: err.message });
+      }
+    },
       getCart: async (req, res) => {
         try {
             const userId = res.user.id;

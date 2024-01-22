@@ -4,7 +4,7 @@ import { ShoppingCart } from "phosphor-react";
 // import axios from "axios";
 // import SearchContext from "../Search/SearchContext";
 // import Search from "../Search/Search";
-import "./Header.css"; 
+import "./Header.css";
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -47,13 +47,18 @@ function Header() {
           Camping shop
         </Link>
         <li className="menu-item">
-          <form className="search-form" onSubmit={handleSearch}>
+          <form
+            className="search-form"
+            onSubmit={handleSearch}
+          >
+            {" "}
             <input
+              style={{ borderRadius: "10px 10px 10px 10px", overflow: "hidden", width: "400px", height:"40px"}}
               type="search"
-              placeholder="Search"
+              placeholder=" Search"
               aria-label="Search"
               className="search-input"
-              value={searchTerm}
+              value={ searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
             <button type="submit" className="search-button">
@@ -90,7 +95,7 @@ function Header() {
           </>
         )}
       </ul>
-      
+
       {/* <SearchContext.Provider value={searchResults}>
     
         <Search />
