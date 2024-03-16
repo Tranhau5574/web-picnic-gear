@@ -15,7 +15,12 @@ const UserSchema = new mongoose.Schema({
     cart: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product' 
-    }]
+    }],
+    role: {
+        type: Number,
+        required: true, 
+        default: 0,
+    }
 
 })
 

@@ -5,9 +5,9 @@ const auth = (req, res, next) => {
     if (!token) return res.status(400).json({ msg: "No token, authorization denied" });
 
     try {
-        jwt.verify(token, process.env.TOKEN, (err, decoded) => {
+        jwt.verify(token, process.env.TOKEN, (err, user) => {
             if (err) return res.status(400).json({ msg: "invalid Authorization" })
-            res.user = decoded;
+            res.user = user;
       
             next();
         })
