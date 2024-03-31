@@ -10,6 +10,7 @@ app.use(cors());
 //Router
 app.use('/user',require('./Router/UserRouter'));
 app.use('/product',require('./Router/ProductRouter'));
+app.use('/purchase',require('./Router/OrderRouter'));
 //Connect to MongoDB
 
 const URI = process.env.MONGODB_URL;

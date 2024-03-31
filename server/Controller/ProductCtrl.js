@@ -29,6 +29,18 @@ const ProductCtrl = {
             res.status(500).json({ msg: err.message });
         }
     },
+    updateProduct: async (req,res) =>{
+        try {
+            const { title, price, description,  images } = req.body; 
+      
+          await Product.findOneAndUpdate({_id: req.params.id},{
+            title, price, description,  images
+          })
+          return res.json({msg:"Updated the Product"})
+        } catch (err) {
+            return res.status(500).json({msg : err.message})
+        }
+    },
     deleteProduct: async (req, res) => {
             try {
                 await Product.findByIdAndDelete(req.params.id);

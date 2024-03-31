@@ -4,10 +4,10 @@ import os
 from urllib.parse import urlparse
 
 
-url = "https://www.leuphot.com/phu-kien-leu-cam-trai?page=2"
+url = "https://www.leuphot.com/bep-dung-cu-nau"
 
 
-folder_name = "Image_data/phu_kien"
+folder_name = "Image_data/bep-dung-cu-nau"
 os.makedirs(folder_name, exist_ok=True)
 
 

@@ -11,5 +11,6 @@ Router.post('/signup', UserCtrl.signup);
 Router.post('/cart',auth, UserCtrl.addToCart);
 Router.delete('/cart/:id', auth, UserCtrl.deleteFromCart);
 Router.get('/cart', auth, UserCtrl.getCart);
+Router.get('/infor', auth, UserCtrl.getUser);
 
 module.exports = Router;

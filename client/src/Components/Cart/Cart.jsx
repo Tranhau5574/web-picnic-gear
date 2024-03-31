@@ -1,8 +1,7 @@
-// Cart.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 import { Link } from "react-router-dom";
 import "./Cart.css";
 
@@ -24,44 +23,17 @@ function Cart() {
         }, {});
         setCartItems(cartObject);
       } catch (error) {
-        console.error('Error fetching cart:', error);
+        console.error("Error fetching cart:", error);
       }
     }
     fetchCart();
-  },  []);
-  
-  // async function deleteFromCart(itemId) {
-  //   const token = localStorage.getItem("token");
-  //   try {
-  //     console.log('Deleting item with id:', itemId);
-  //     const response = await axios.delete(`http://localhost:5000/user/cart/${itemId}`, {
-  //       headers: {
-  //         "Auth-token": token,
-  //       },
-  //     });
-  //     console.log('Delete response:', response);
-  //     if (response.status === 200) {
-  //       // Remove the item from the local cart items state
-  //       setCartItems(prevItems => {
-  //         const newItems = { ...prevItems };
-  //         delete newItems[itemId];
-  //         return newItems;
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error('Error deleting item from cart:', error);
-  //   }
-  // }
+  }, []);
 
   const handleQuantityChange = (itemId, newQuantity) => {
- 
     const quantity = parseInt(newQuantity, 10);
-
- 
     if (isNaN(quantity)) {
       newQuantity = 1;
     }
-
     setCartItems((prevCartItems) => ({
       ...prevCartItems,
       [itemId]: { ...prevCartItems[itemId], quantity },
@@ -75,10 +47,44 @@ function Cart() {
     );
   };
 
+  const HandleCheckout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      console.log(token);
+      const res = await axios.get("http://localhost:5000/user/infor", {
+        headers: {
+          "Auth-Token": token,
+        },
+      });
+    
+      console.log(res.data);
+      console.log(cartItems);
+
+      await axios.post(
+        "http://localhost:5000/purchase/add",
+        {
+          userId: res.data,
+          cartItems: Object.values(cartItems), // Chuyển đổi cartItems thành một mảng
+        },
+        {
+          headers: {
+            "Auth-Token": token,
+          },
+        },
+      );
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while createOder", error);
+    }
+  };
+
+
   return (
     <div>
       <Header />
-      <h1><b>Cart: </b></h1>
+      <h1>
+        <b>Cart: </b>
+      </h1>
       {Object.values(cartItems).map((item) => (
         <div key={item._id} className="item">
           <div className="item-image-container">
@@ -96,16 +102,12 @@ function Cart() {
               onChange={(e) => handleQuantityChange(item._id, e.target.value)}
             />
             <p>Total: {(item.price * item.quantity).toLocaleString()}đ</p>
-            {/* <button onClick={() => deleteFromCart(item._id)}>Delete</button> */}
           </div>
         </div>
       ))}
-      
       <h3>Total Amount to Pay: {calculateTotalAmount().toLocaleString()}đ</h3>
       <li className="pay">
-        <Link to="/" className="header-button">
-          Thanh toán
-        </Link>
+        <button onClick={HandleCheckout}>Thanh toán</button>
       </li>
       <Footer />
     </div>

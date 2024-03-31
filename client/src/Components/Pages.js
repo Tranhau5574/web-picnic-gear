@@ -7,6 +7,8 @@ import Product from '../Components/Product/Product';
 import ProductDetails from '../Components/Product/ProductDetail';
 import Cart from '../Components/Cart/Cart';
 import Search from '../Components/Search/Search';
+import AddProduct from './AddProduct/AddProduct';
+import EditProduct from './editProduct/editProduct';
 
 function Pages() {
   return (
@@ -17,6 +19,8 @@ function Pages() {
       <Route path="/product/:id" element={<ProductDetails />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/search-result" element={<Search/>} />
+      <Route path="/addProduct" element={<AddProduct />} />
+      <Route path="/editProduct/:id" element={<EditProduct />} />
     </Routes>
   );
 }
