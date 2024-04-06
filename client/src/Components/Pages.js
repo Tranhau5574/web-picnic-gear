@@ -9,6 +9,7 @@ import Cart from '../Components/Cart/Cart';
 import Search from '../Components/Search/Search';
 import AddProduct from './AddProduct/AddProduct';
 import EditProduct from './editProduct/editProduct';
+import OrderList from './ListOrder/ListOrder';
 
 function Pages() {
   return (
@@ -21,6 +22,7 @@ function Pages() {
       <Route path="/search-result" element={<Search/>} />
       <Route path="/addProduct" element={<AddProduct />} />
       <Route path="/editProduct/:id" element={<EditProduct />} />
+      <Route path="/listOrder" element={<OrderList />} />
     </Routes>
   );
 }

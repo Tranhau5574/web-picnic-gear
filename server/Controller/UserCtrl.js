@@ -52,6 +52,15 @@ const UserCtrl = {
             res.status(500).json({ msg: err.message });
         }
     },
+    getUser: async (req, res) => {
+        try {
+            const user = await User.findById(res.user.id).select('-password');
+            if (!user) return res.status(400).json({ msg: "User not found" });
+            return res.json(user);
+        } catch (err) {
+            res.status(500).json({ msg: err.message });
+        }
+    },
     addToCart: async (req, res) => {
         try {
             const { productId } = req.body;
@@ -93,6 +102,18 @@ const UserCtrl = {
             res.status(500).json({ msg: err.message });
         }
     },
+    deleteAllCart: async (req, res) => {
+        try {
+            const userId = res.user.id;
+
+            const user =await User.findById(userId);
+            if (!user) return res.status(404).json("user not found");
+            user.cart = [];
+            await user.save();
+        } catch (err) {
+            res.status(500).json({ msg: err.message });
+        }
+    },
     getCart: async (req, res) => {
         try {
             const userId = res.user.id;
@@ -103,15 +124,7 @@ const UserCtrl = {
             res.status(500).json({ msg: err.message });
         }
     },
-    getUser: async (req, res) => {
-        try {
-            const user = await User.findById(res.user.id).select('-password');
-            if (!user) return res.status(400).json({ msg: "User not found" });
-            return res.json(user);
-        } catch (err) {
-            res.status(500).json({ msg: err.message });
-        }
-    }
+    
 
 }
 

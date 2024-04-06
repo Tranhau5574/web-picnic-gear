@@ -6,5 +6,7 @@ const AuthAdmin = require('../Middlewares/AuthAdmin');
 
 Router.get('/view',Auth, AuthAdmin, OrderCtrl.getAllOrders); 
 Router.post('/add',Auth, OrderCtrl.addOrder);
+Router.get('view-order', Auth, OrderCtrl.viewOrderByUserId);
+Router.put("updata-status",Auth, AuthAdmin, OrderCtrl.updateOrderStatus)
 
 module.exports = Router;

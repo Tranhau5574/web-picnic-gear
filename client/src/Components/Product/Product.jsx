@@ -1,40 +1,65 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Product.css";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 
 function Product() {
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
   const [products, setProducts] = useState([]);
+  useEffect(()=> {
+    const token = localStorage.getItem("token");
+    if (!token) return navigate("/login");
+  },[navigate]);
   useEffect(() => {
-    async function fetchProducts() {
-      const response = await axios.get("http://localhost:5000/product");
-      setProducts(response.data);
-    }
-
-    fetchProducts();
-  }, []);
-  useEffect(() => {
-    if (token) {
-      const getUser = async () => {
-        try {
-          const res = await axios.get("http://localhost:5000/user/infor", {
-            headers: {
-              "Auth-Token": token,
-            },
-          });
-
-          res.data.role === 1 ? setIsAdmin(true) : setIsAdmin(false);
-        } catch (err) {
-          alert(err.response.data.msg);
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/product");
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Fetch products error:", error);
+        // Nếu lỗi xảy ra và là lỗi invalid Authorization, chuyển hướng đến trang đăng nhập
+        if (error.response && error.response.status === 401) {
+          navigate("/login");
         }
-      };
-      getUser();
+      }
+    };
+  
+    // Kiểm tra token trước khi gửi yêu cầu đến server
+    if (token) {
+      fetchProducts();
     }
-  }, [token]);
+  }, [token, navigate]);
+  const [tokenChecked, setTokenChecked] = useState(false);
+
+useEffect(() => {
+  if (token && !tokenChecked) {
+    const getUser = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/user/infor", {
+          headers: {
+            "Auth-Token": token,
+          },
+        });
+
+        res.data.role === 1 ? setIsAdmin(true) : setIsAdmin(false);
+        setTokenChecked(true); // Đánh dấu rằng token đã được kiểm tra
+      } catch (err) {
+        console.error("Get user info error:", err);
+        alert(err.response.data.msg);
+        navigate("/login");
+      }
+    };
+    getUser();
+  } else if (!token) {
+    // Nếu không có token, chuyển hướng đến trang đăng nhập
+    navigate("/login");
+  }
+}, [token, tokenChecked, navigate]);
+
 
   async function addToCart(productId) {
     const token = localStorage.getItem("token");

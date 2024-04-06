@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Cart.css";
 
 function Cart() {
   const [cartItems, setCartItems] = useState({});
-
+  const navigate = useNavigate();
   useEffect(() => {
     async function fetchCart() {
       try {
@@ -50,34 +50,32 @@ function Cart() {
   const HandleCheckout = async () => {
     try {
       const token = localStorage.getItem("token");
-      console.log(token);
       const res = await axios.get("http://localhost:5000/user/infor", {
-        headers: {
-          "Auth-Token": token,
-        },
+        headers: { "Auth-Token": token },
       });
-    
-      console.log(res.data);
-      console.log(cartItems);
 
-      await axios.post(
+      const response = await axios.post(
         "http://localhost:5000/purchase/add",
-        {
-          userId: res.data,
-          cartItems: Object.values(cartItems), // Chuyển đổi cartItems thành một mảng
-        },
-        {
-          headers: {
-            "Auth-Token": token,
-          },
-        },
+        { userId: res.data, cartItems: Object.values(cartItems) },
+        { headers: { "Auth-Token": token } }
       );
+
+      if (response.data.success) {
+        alert("Order successfully placed!");
+        await axios.delete("http://localhost:5000/user/deleteAllCart", {
+          headers: { "Auth-Token": token },
+        });
+        navigate("/login");
+
+        window.location.reload();
+      } else {
+        alert("Failed to place order");
+      }
     } catch (error) {
       console.error(error);
-      alert("An error occurred while createOder", error);
+      alert("An error occurred while placing the order");
     }
   };
-
 
   return (
     <div>

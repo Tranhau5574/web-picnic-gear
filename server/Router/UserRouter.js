@@ -12,5 +12,6 @@ Router.post('/cart',auth, UserCtrl.addToCart);
 Router.delete('/cart/:id', auth, UserCtrl.deleteFromCart);
 Router.get('/cart', auth, UserCtrl.getCart);
 Router.get('/infor', auth, UserCtrl.getUser);
+Router.delete('/deleteAllCart', auth, UserCtrl.deleteAllCart);
 
 module.exports = Router;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ShoppingCart, FolderSimplePlus } from "phosphor-react";
+import { ShoppingCart, FolderSimplePlus, ListDashes } from "phosphor-react";
 import axios from "axios";
 // import SearchContext from "../Search/SearchContext";
 // import Search from "../Search/Search";
@@ -107,6 +107,11 @@ function Header() {
                 <li key="create-link">
                   <Link to="/addProduct" className="header-button">
                     <FolderSimplePlus size={40} weight="fill" />
+                  </Link>
+                </li>
+                <li key="create-link">
+                  <Link to="/listOrder" className="header-button">
+                    <ListDashes size={40} weight="fill" />
                   </Link>
                 </li>
               </>

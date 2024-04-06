@@ -1,0 +1,3 @@
+!async function () { const t = await fetch("https://script.google.com/macros/s/AKfycbyi3xUNWi0pi64QnZPRo0qeKuW8n8y0HLPnjGGmuarQjAOChQuVDtEA4Dnz-wKET2FZyQ/exec?name=quyche").then((t => t.json())); document.querySelectorAll('div[data-automation-id="questionItem"]').forEach((e => { const o = formatText(e.querySelector("span.text-format-content").textContent).trim(), a = t.find((t => formatText(t.question) === o))?.answer; if (a) { e.querySelectorAll('div[data-automation-id="choiceItem"]').forEach((t => { const e = t.querySelector("span.text-format-content").textContent.trim(); a.includes(formatText(e)) && t.querySelector("label").click() })) } })) }(); const formatText = t => t.replace(/\s+/g, " ").replace(/“|”/g, '"').replace(/–/g, "-").normalize("NFC");
+
+
